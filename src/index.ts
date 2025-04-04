@@ -1,7 +1,24 @@
-import { Elysia } from "elysia";
+import { Elysia } from 'elysia'
+import { html, Html } from '@elysiajs/html'
 
-const app = new Elysia().get("/", () => "Hello Elysia").listen(3000);
-
-console.log(
-  `🦊 Elysia is running at ${app.server?.hostname}:${app.server?.port}`
-);
+new Elysia()
+  .use(html())
+  .get('/', () => (
+    `<html>
+      <head>
+        <script src="https://unpkg.com/htmx.org@1.9.2"></script>
+      </head>
+      <body>
+        <h1>Hello from Elysia + HTMX</h1>
+        <button hx-get="/time" hx-target="#otherButton">Get time</button>
+        <div id="otherButton">
+        </div>
+      </body>
+    </html>`
+  ))
+  .get('/time', () => (
+    `<button hx-get="/time" hx-swap="outerHTML">
+      Time: ${new Date().toLocaleTimeString()}
+    </button>`
+  ))
+  .listen(3000)
