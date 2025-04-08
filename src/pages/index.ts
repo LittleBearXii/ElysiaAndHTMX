@@ -89,7 +89,6 @@ const app = new Elysia()
 ))
 .get('/listTable', async () => {
     const userSubmit = await db.user.findMany();
-    console.log(userSubmit);
 
     const table = userSubmit.map((user) => `<tr>
             <td>${user.name}</td>
@@ -99,23 +98,20 @@ const app = new Elysia()
             <td>${user.createdAt}</td>
         </tr>`)
 
-    console.log('table => ', table);
-
     return `<table>
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Subject</th>
-                <th>Message</th>
-                <th>Time</th>
-            </tr>
-        </thead>
-        <tbody>${table}</tbody>
-    </table>`;
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Subject</th>
+                        <th>Message</th>
+                        <th>Time</th>
+                    </tr>
+                </thead>
+                <tbody>${table}</tbody>
+            </table>`;
 })
 .post('/submit', async ({ body }) => {
-    // Save the data to the database
     await db.user.create({
         data: {
             name: body.name,
@@ -124,20 +120,14 @@ const app = new Elysia()
             message: body.message,
         },
     })
-    // Return a success message
 
-    const userSubmit = await db.user.findMany();
-    console.log(userSubmit);
-
-    const subMitSuccess = userSubmit.map((user) => { 
-        `<h1>Form submitted successfully!</h1>
-        <p>Name: ${user.name}</p>
-        <p>Email: ${user.email}</p>
-        <p>Subject: ${user.subject}</p>
-        <p>Message: ${user.message}</p>
-        <p>Time: ${user.createdAt}</p>
-        <a href="/">Go back</a>`
-    })
+    const subMitSuccess = `<h1>Form submitted successfully!</h1>
+        <p>Name: ${body.name}</p>
+        <p>Email: ${body.email}</p>
+        <p>Subject: ${body.subject}</p>
+        <p>Message: ${body.message}</p>
+        <p>Time: ${new Date().toLocaleTimeString()}</p>
+        <a href='/'>Go back</a>`
 
     return subMitSuccess;
 }, validateSubmit)
