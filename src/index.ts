@@ -1,24 +1,8 @@
-import { Elysia } from 'elysia'
-import { html, Html } from '@elysiajs/html'
+import { Elysia, t } from 'elysia'
+import { html } from '@elysiajs/html'
+import pages from './pages'
 
 new Elysia()
   .use(html())
-  .get('/', () => (
-    `<html>
-      <head>
-        <script src="https://unpkg.com/htmx.org@1.9.2"></script>
-      </head>
-      <body>
-        <h1>Hello from Elysia + HTMX</h1>
-        <button hx-get="/time" hx-target="#otherButton">Get time</button>
-        <div id="otherButton">
-        </div>
-      </body>
-    </html>`
-  ))
-  .get('/time', () => (
-    `<button hx-get="/time" hx-swap="outerHTML">
-      Time: ${new Date().toLocaleTimeString()}
-    </button>`
-  ))
+  .use(pages)
   .listen(3000)

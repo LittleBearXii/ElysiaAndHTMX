@@ -7,10 +7,12 @@
   },
   "dependencies": {
     "@elysiajs/html": "^1.2.0",
+    "@prisma/client": "6.5.0",
     "elysia": "latest"
   },
   "devDependencies": {
-    "bun-types": "latest"
+    "bun-types": "latest",
+    "prisma": "^6.5.0"
   },
   "module": "src/index.js"
 }
